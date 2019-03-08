@@ -9,10 +9,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {AuthGuard} from '../../../../appgym/appgym-manager/src/_guards';
-import {ErrorInterceptor, JwtInterceptor} from '../../../../appgym/appgym-manager/src/_helpers';
-import {AlertService, AuthenticationService, UserService} from '../../../../appgym/appgym-manager/src/_services';
-import {AppConfig} from './app.config';
+import { IonicStorageModule } from '@ionic/storage';
+import { AuthGuard } from '../../src/_guards';
+import { ErrorInterceptor, JwtInterceptor } from '../../src/_helpers';
+import { AlertService, AuthenticationService, UserService, ActivityService } from '../../src/_services';
+import { AppConfig } from './app.config';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import {AppConfig} from './app.config';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule
   ],
@@ -31,6 +33,7 @@ import {AppConfig} from './app.config';
     AuthGuard,
     AlertService,
     AuthenticationService,
+    ActivityService,
     UserService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

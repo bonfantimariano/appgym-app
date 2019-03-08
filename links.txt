@@ -1,0 +1,3 @@
+Persisting user authentication with BehaviorSubject in Angular:
+https://netbasal.com/angular-2-persist-your-login-status-with-behaviorsubject-45da9ec43243
+

@@ -7,8 +7,8 @@
 <ion-content padding>
   <form [formGroup]="loginForm">
     <ion-item>
-      <ion-label stacked>Usuario</ion-label>
-      <ion-input formControlName="user" type="text" placeholder="Ingresa tu usuario"
+      <ion-label stacked>Username</ion-label>
+      <ion-input formControlName="user" type="text" placeholder="username"
                  [class.invalid]="loginForm.controls['user'].touched">
       </ion-input>
     </ion-item>
@@ -38,3 +38,4 @@
   </ion-button>
 
 </ion-content>
+

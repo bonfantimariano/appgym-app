@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs/client-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Actividades
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button icon-only (click)="presentModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-label [hidden]="activities.length > 0">
+    No Activities Found
+  </ion-label>
+  <ion-grid [hidden]="activities.length === 0">
+    <ion-row *ngFor="let activity of activities" size="12">
+      <ion-col>
+        <ion-card (click)="presentModal(activity._id)">
+          <ion-item>
+            <h5 text-capitalize>{{activity.name}}</h5>
+          </ion-item>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  {{activity.description}}
+                </ion-col>
+                <ion-col class="ion-text-center">
+                  {{activity.frequency}}
+                </ion-col>
+                <ion-col class="ion-text-end">
+                    $ {{activity.price}}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
