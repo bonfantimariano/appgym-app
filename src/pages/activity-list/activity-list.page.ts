@@ -4,7 +4,6 @@ import { OverlayEventDetail } from '@ionic/core';
 import { ActivityModalPage } from './activity-modal/activity-modal.page';
 import { ActivityService } from '../../_services';
 import { ActivityModel, UserModel } from '../../_models';
-import {isNull} from 'util';
 
 @Component({
   selector: 'app-activity-list',

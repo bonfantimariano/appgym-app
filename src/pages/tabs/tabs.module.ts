@@ -15,8 +15,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'home',
-        loadChildren: '../home/home.module#HomePageModule',
+        path: 'client-list',
+        loadChildren: '../client-list/client-list.module#ClientListPageModule',
         canActivate: [AuthGuard]
 
       },
@@ -34,17 +34,17 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/app/tabs/home',
+        redirectTo: '/app/tabs/client-list',
       },
       {
         path: '**',
-        redirectTo: '/app/tabs/home',
+        redirectTo: '/app/tabs/client-list',
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/app/tabs/home',
+    redirectTo: '/app/tabs/client-list',
   }
 ];
 

@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, LoadingController, ModalController, NavParams} from '@ionic/angular';
-import { ActivityService } from '../../../_services';
-import {ActivityModel, UserModel} from '../../../_models';
+import { ClientService, ActivityService } from '../../../_services';
+import {ClientModel, ActivityModel, UserModel} from '../../../_models';
 
 @Component({
-  selector: 'app-activity-modal',
-  templateUrl: './activity-modal.page.html',
-  styleUrls: ['./activity-modal.page.scss'],
+  selector: 'app-client-modal',
+  templateUrl: './client-modal.page.html',
+  styleUrls: ['./client-modal.page.scss'],
 })
-export class ActivityModalPage implements OnInit {
+export class ClientModalPage implements OnInit {
     currentUser: UserModel;
-    activity: ActivityModel = new ActivityModel();
+    client: ClientModel = new ClientModel();
+    activities: ActivityModel[];
     editMode: false;
     public loading: HTMLIonLoadingElement;
     constructor(
@@ -18,27 +19,29 @@ export class ActivityModalPage implements OnInit {
         public navParams: NavParams,
         public loadingCtrl: LoadingController,
         public alertCtrl: AlertController,
+        private clientService: ClientService,
         private activityService: ActivityService
     ) { }
 
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(this.navParams.get('activityId'));
+        this.loadActivities();
+        console.log(this.navParams.get('clientId'));
         this.editMode = this.navParams.get('editMode');
         if (this.editMode) {
-            this.loadActivity(this.navParams.get('activityId')).then(() => console.log('Activity loaded'));
+            this.loadClient(this.navParams.get('clientId')).then(() => console.log('Client loaded'));
         }
     }
 
-    async loadActivity(id) {
+    async loadClient(id) {
         console.log(id);
         this.loading = await this.loadingCtrl.create();
         await this.loading.present();
-        this.activityService.getById(id).subscribe(
+        this.clientService.getById(id).subscribe(
             data => {
                 console.log(data);
                 this.loading.dismiss().then(() => {
-                    this.activity = data;
+                    this.client = data;
                 });
             },
             error => {
@@ -57,20 +60,20 @@ export class ActivityModalPage implements OnInit {
     }
 
     async createItem() {
-        const newActivity = {
-            name: this.activity.name,
-            description: this.activity.description,
-            price: this.activity.price,
-            frequency: this.activity.frequency,
+        const newClient = {
+            firstName: this.client.firstName,
+            lastName: this.client.lastName,
+            dni: this.client.dni,
+            activity: this.client.activity._id,
             user_id: this.currentUser._id
         };
         this.loading = await this.loadingCtrl.create();
         await this.loading.present();
-        this.activityService.create(newActivity)
+        this.clientService.create(newClient)
             .subscribe(
                 data => {
                     this.loading.dismiss().then(() => {
-                        console.log('activity created!!');
+                        console.log('client created!!');
                         this.modalCtrl.dismiss();
                     });
                 },
@@ -83,17 +86,16 @@ export class ActivityModalPage implements OnInit {
                         await alert.present();
                     });
                 });
-
     }
 
     async updateItem() {
         this.loading = await this.loadingCtrl.create();
         await this.loading.present();
-        this.activityService.update(this.activity)
+        this.clientService.update(this.client)
             .subscribe(
-                data => {
+                () => {
                     this.loading.dismiss().then(() => {
-                        console.log('activity updated!!');
+                        console.log('client updated!!');
                         this.modalCtrl.dismiss();
                     });
                 },
@@ -106,6 +108,17 @@ export class ActivityModalPage implements OnInit {
                         await alert.present();
                     });
                 });
+    }
+
+    loadActivities() {
+        this.activityService.getAll().subscribe(data => {
+            console.log('activities: ', data);
+                this.activities = data;
+
+        },
+            error => {
+                    console.log('error loaded clients: ', error);
+            });
     }
 
     close() {

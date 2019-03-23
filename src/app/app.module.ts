@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { AuthGuard } from '../../src/_guards';
 import { ErrorInterceptor, JwtInterceptor } from '../../src/_helpers';
-import { AlertService, AuthenticationService, UserService, ActivityService } from '../../src/_services';
+import { AlertService, AuthenticationService, UserService, ActivityService, ClientService } from '../../src/_services';
 import { AppConfig } from './app.config';
 
 @NgModule({
@@ -34,6 +34,7 @@ import { AppConfig } from './app.config';
     AlertService,
     AuthenticationService,
     ActivityService,
+    ClientService,
     UserService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

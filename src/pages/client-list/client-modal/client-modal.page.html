@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Nuevo Cliente
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button icon-only (click)="close()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Nombre</ion-label>
+      <ion-input type="text" [(ngModel)]="client.firstName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Apellido</ion-label>
+      <ion-input type="text" [(ngModel)]="client.lastName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>DNI</ion-label>
+      <ion-input type="text" [(ngModel)]="client.dni"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Activity</ion-label>
+      <ion-select [(ngModel)]="client.activity">
+        <ion-select-option [value]="activity" *ngFor="let activity of activities">{{activity.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-button (click)="save()">Save</ion-button>
+
+</ion-content>

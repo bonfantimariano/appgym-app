@@ -5,14 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ActivityListPage } from './activity-list.page';
-import { ActivityModalPage } from './activity-modal/activity-modal.page';
-
+import { ClientModalPage } from './client-modal.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ActivityListPage
+    component: ClientModalPage
   }
 ];
 
@@ -23,7 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ActivityListPage, ActivityModalPage],
-  entryComponents: [ActivityModalPage]
+  declarations: [ClientModalPage]
 })
-export class ActivityListPageModule {}
+export class ClientModalPageModule {}
