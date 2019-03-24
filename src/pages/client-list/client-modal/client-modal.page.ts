@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, LoadingController, ModalController, NavParams} from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, NavParams } from '@ionic/angular';
 import { ClientService, ActivityService } from '../../../_services';
-import {ClientModel, ActivityModel, UserModel} from '../../../_models';
+import { ClientModel, UserModel } from '../../../_models';
 
 @Component({
   selector: 'app-client-modal',
@@ -11,7 +11,8 @@ import {ClientModel, ActivityModel, UserModel} from '../../../_models';
 export class ClientModalPage implements OnInit {
     currentUser: UserModel;
     client: ClientModel = new ClientModel();
-    activities: ActivityModel[];
+    activity_id = '';
+    activities: any[];
     editMode: false;
     public loading: HTMLIonLoadingElement;
     constructor(
@@ -21,16 +22,16 @@ export class ClientModalPage implements OnInit {
         public alertCtrl: AlertController,
         private clientService: ClientService,
         private activityService: ActivityService
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.loadActivities();
         console.log(this.navParams.get('clientId'));
         this.editMode = this.navParams.get('editMode');
         if (this.editMode) {
-            this.loadClient(this.navParams.get('clientId')).then(() => console.log('Client loaded'));
+            this.loadClient(this.navParams.get('clientId')).then(() => console.log('client loaded...'));
         }
+        this.loadActivities();
     }
 
     async loadClient(id) {
@@ -42,13 +43,14 @@ export class ClientModalPage implements OnInit {
                 console.log(data);
                 this.loading.dismiss().then(() => {
                     this.client = data;
+                    this.activity_id = data.activity._id;
                 });
             },
             error => {
                 this.loading.dismiss().then(async () => {
                     const alert = await this.alertCtrl.create({
                         message: error,
-                        buttons: [{ text: 'Ok', role: 'cancel' }],
+                        buttons: [{ text: 'Ok', role: 'Cancel' }],
                     });
                     await alert.present();
                 });
@@ -64,7 +66,7 @@ export class ClientModalPage implements OnInit {
             firstName: this.client.firstName,
             lastName: this.client.lastName,
             dni: this.client.dni,
-            activity: this.client.activity._id,
+            activity: this.activity_id,
             user_id: this.currentUser._id
         };
         this.loading = await this.loadingCtrl.create();
@@ -73,7 +75,7 @@ export class ClientModalPage implements OnInit {
             .subscribe(
                 data => {
                     this.loading.dismiss().then(() => {
-                        console.log('client created!!');
+                        console.log('Client created!!');
                         this.modalCtrl.dismiss();
                     });
                 },
@@ -91,11 +93,12 @@ export class ClientModalPage implements OnInit {
     async updateItem() {
         this.loading = await this.loadingCtrl.create();
         await this.loading.present();
+        this.client.activity._id = this.activity_id;
         this.clientService.update(this.client)
             .subscribe(
                 () => {
                     this.loading.dismiss().then(() => {
-                        console.log('client updated!!');
+                        console.log('Client updated!!');
                         this.modalCtrl.dismiss();
                     });
                 },
@@ -112,12 +115,10 @@ export class ClientModalPage implements OnInit {
 
     loadActivities() {
         this.activityService.getAll().subscribe(data => {
-            console.log('activities: ', data);
                 this.activities = data;
-
-        },
+            },
             error => {
-                    console.log('error loaded clients: ', error);
+                    console.log('Error loading activities: ', error);
             });
     }
 

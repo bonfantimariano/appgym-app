@@ -54,7 +54,7 @@ export class ClientListPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: ClientModalPage,
       componentProps: {
-        activityId: id,
+        clientId: id,
         editMode: editMode
       }
     });

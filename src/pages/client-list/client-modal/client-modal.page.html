@@ -28,11 +28,10 @@
 
     <ion-item>
       <ion-label>Activity</ion-label>
-      <ion-select [(ngModel)]="client.activity">
-        <ion-select-option [value]="activity" *ngFor="let activity of activities">{{activity.name}}</ion-select-option>
+      <ion-select [(ngModel)]="activity_id">
+        <ion-select-option [value]="activity._id" *ngFor="let activity of activities">{{activity.name}}</ion-select-option>
       </ion-select>
     </ion-item>
-
   </ion-list>
 
   <ion-button (click)="save()">Save</ion-button>

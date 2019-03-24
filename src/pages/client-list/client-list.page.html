@@ -16,7 +16,7 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row *ngFor="let client of clients">
+    <ion-row *ngFor="let client of clients" (click)="presentModal(client._id)">
       <ion-col>
         <div>
           {{client.firstName}}
