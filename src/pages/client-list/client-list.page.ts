@@ -5,15 +5,25 @@ import {AlertController, LoadingController, ModalController} from '@ionic/angula
 import {ActivityService, ClientService} from '../../_services';
 import {ActivityModel, ClientModel, UserModel} from '../../_models';
 
+export interface Config {
+  technologies: string;
+}
+
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.page.html',
-  styleUrls: ['./client-list.page.scss'],
+  styleUrls: ['./client-list.page.scss']
 })
 export class ClientListPage implements OnInit {
   clients: ClientModel[] = [];
+  clientsList: ClientModel[] = [];
   activities: ActivityModel[];
   currentUser: UserModel;
+
+  public config: Config;
+  public columns: any;
+  public rows: any;
+
   public loading: HTMLIonLoadingElement;
   constructor(
       public modalCtrl: ModalController,
@@ -21,7 +31,14 @@ export class ClientListPage implements OnInit {
       public alertCtrl: AlertController,
       private activityService: ActivityService,
       private clientService: ClientService
-  ) { }
+  ) {
+    this.columns = [
+      { prop: 'lastName, firstName', name: 'Cliente' },
+      { prop: 'firstName', name: 'Nombre' },
+      { name: 'DNI' },
+      { prop: 'activity.name', name: 'Actividad' }
+    ];
+  }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -36,6 +53,8 @@ export class ClientListPage implements OnInit {
           this.loading.dismiss().then(() => {
             console.log('clients ', data);
             this.clients = data;
+            this.initializeItems();
+            this.rows = data;
           });
         },
         error => {
@@ -47,6 +66,25 @@ export class ClientListPage implements OnInit {
             await alert.present();
           });
         });
+  }
+
+  initializeItems() {
+    this.clientsList = this.clients;
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.initializeItems();
+
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() !== '') {
+      this.clientsList = this.clientsList.filter((item) => {
+        return (item.lastName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+    }
   }
 
   async presentModal(id = null) {
@@ -67,5 +105,12 @@ export class ClientListPage implements OnInit {
 
     await modal.present();
   }
-}
 
+  onActivate(event, index) {
+    if (event.type === 'click') {
+      console.log('Select Event', event);
+      console.log('Select index', event.cellIndex);
+      this.presentModal(event.row._id);
+    }
+  }
+}

@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home
+      Clientes
     </ion-title>
     <ion-buttons slot="end">
       <ion-button icon-only (click)="presentModal()">
@@ -15,28 +15,76 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row *ngFor="let client of clients" (click)="presentModal(client._id)">
-      <ion-col>
-        <div>
-          {{client.firstName}}
-        </div>
-      </ion-col>
-      <ion-col>
-        <div>
-          {{client.lastName}}
-        </div>
-      </ion-col>
-      <ion-col>
-        <div>
-          {{client.dni}}
-        </div>
-      </ion-col>
-      <ion-col>
-        <div>
-          {{client.activity.name}}
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <div>
+    <!--
+       Embed the ngx-datatable component with following property bindings/values:
+     1. sorttype - allow data to be sorted on multiple columns
+     2. headerHeight - Set height of table header at 50 pixels
+     3. footerHeight - Set height of table footer at 50 pixels
+     4. rowHeight - Set height of table rows at 50 pixels
+     5. rows - Derives the data for the table rows from the component class
+               property of rows
+     6. columns - Derives the names for the table columns from the component
+                  class property of columns
+     7. columnMode - Use of standard, flex or force - Force value makes columns
+                     equidistant and span the width of the parent container
+     8. limit - the number of records to display before paginating the results
+    -->
+
+    <!--<ngx-datatable-->
+            <!--[sortType]="'multi'"-->
+            <!--[headerHeight]="50"-->
+            <!--[footerHeight]="50"-->
+            <!--[rowHeight]="50"-->
+            <!--[rows]="rows"-->
+            <!--[columns]="columns"-->
+            <!--[columnMode]="'force'"-->
+            <!--[limit]="10">-->
+    <!--</ngx-datatable>-->
+    <ngx-datatable
+            [rows]="clientsList"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="50"
+            [columnMode]="'force'"
+            [limit]="100"
+            (activate)="onActivate($event, currentIndex)"
+    >
+      <ngx-datatable-column>
+        <ng-template let-column="column" ngx-datatable-header-template>
+          DNI
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.dni}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column>
+        <ng-template let-column="column" ngx-datatable-header-template>
+          Cliente
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.lastName}}, {{row.firstName}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column>
+        <ng-template let-column="column" ngx-datatable-header-template>
+          Actividad
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{row.activity.name}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column>
+        <ng-template let-column="column" ngx-datatable-header-template>
+          Edit
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <button (click)="presentModal(row.id)">Edit</button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+
+</div>
 </ion-content>

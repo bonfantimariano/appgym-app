@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
-
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ClientListPage } from './client-list.page';
 import {ClientModalPage} from './client-modal/client-modal.page';
 
@@ -20,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    NgxDatatableModule,
     RouterModule.forChild(routes)
   ],
   declarations: [ClientListPage, ClientModalPage],

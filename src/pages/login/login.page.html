@@ -7,7 +7,7 @@
 <ion-content padding>
   <form [formGroup]="loginForm">
     <ion-item>
-      <ion-label stacked>Username</ion-label>
+      <ion-label position="floating">Username</ion-label>
       <ion-input formControlName="user" type="text" placeholder="username"
                  [class.invalid]="loginForm.controls['user'].touched">
       </ion-input>
@@ -18,7 +18,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Password</ion-label>
+      <ion-label position="floating">Password</ion-label>
       <ion-input formControlName="password" type="password" placeholder="Your password"
                  [class.invalid]="!loginForm.controls['password'].valid&& loginForm.controls['password'].touched">
       </ion-input>

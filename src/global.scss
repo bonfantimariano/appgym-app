@@ -9,3 +9,79 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+app-client-list {
+
+  .datatable-header {
+    background: #FDFDFD;
+    padding: 1em 0 0 1em;
+  }
+
+  .datatable-header-cell {
+    font-weight: bold;
+    color: #444444;
+    border-bottom: 1px solid #DDDDDD;
+  }
+
+  .datatable-body-row {
+    padding: 0;
+  }
+
+  .datatable-row-even {
+    //background: rgba(240, 240, 240, 1);
+  }
+
+  .datatable-row-odd {
+    //background: rgba(255, 255, 255, 1);
+  }
+
+  .datatable-body-cell {
+    padding: 1em;
+  }
+
+
+  // Style footer appearance
+  .datatable-footer {
+    //background: #FDFDFD;
+    border-top: 1px solid #DDDDDD;
+    padding: 0 1em 0 1em;
+
+    .pager {
+      li {
+        padding: 0 1em !important;
+
+        a {
+          color: rgba(68, 68, 68, 1);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+
+  // Style rules for the footer pagination elements
+  .datatable-icon-done-all:before {
+    content: ">>";
+  }
+
+  .datatable-icon-left:before {
+    content: "<";
+  }
+
+  .datatable-icon-right:before {
+    content: ">";
+  }
+
+  .datatable-icon-skip:before {
+    content: ">>";
+  }
+
+  .datatable-icon-prev:before {
+    content: "<<";
+  }
+
+}
+
+
+
+
